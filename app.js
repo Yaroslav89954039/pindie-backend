@@ -4,9 +4,16 @@ const bodyParser = require("body-parser");
 const gamesRouter = require("./routes/games");
 const categoriesRouter = require("./routes/categories");
 const usersRouter = require("./routes/users");
+
+const connectToDatabase = require('./database/connect');
+
+
 const app = express();
 
 const PORT = 3000;
+
+connectToDatabase();
+
 app.use(
 bodyParser.json,
 express.static(path.join(__dirname, "/public")),
