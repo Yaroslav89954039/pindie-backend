@@ -16,10 +16,10 @@ const generateGamesList = (gamesArray, template, parent) => {
     clone.querySelector('.developer').textContent = element.developer;
     const catlist = clone.querySelector('.categories');
     element.categories.forEach(category => {
-      const listItem = document.createElement('li');
-      listItem.textContent = category.name;
-      catlist.append(listItem);
-    });
+    const listItem = document.createElement('li');
+    listItem.textContent = category.name;
+    catlist.append(listItem);
+   });
     const voteslist = clone.querySelector('.votes');
     element.users.forEach(user => {
       const listItem = document.createElement('li');
