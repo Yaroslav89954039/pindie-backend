@@ -22,13 +22,8 @@ const gameSchema = new mongoose.Schema({
   link: {
     type: String,
     required: true
-  },
-  // Добавляем свойство категории с массивом объектов, в котором укажем 
-  // тип ObjectId и ref на существующую модель категорий
-  categories: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: categoryModel,
-  }],
+  }
 });
 
-module.exports = mongoose.model('game', gameSchema);
+const game = mongoose.model('game', gameSchema);
+module.exports = game;

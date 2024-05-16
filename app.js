@@ -15,7 +15,7 @@ const PORT = 3000;
 connectToDatabase();
 
 app.use(
-bodyParser.json,
+bodyParser.json(),
 express.static(path.join(__dirname, "/public")),
 gamesRouter,
 categoriesRouter,

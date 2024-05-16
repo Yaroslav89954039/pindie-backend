@@ -1,39 +1,20 @@
-const mongoose = require('mongoose');
-// Не забываем импортировать модель, на которую ссылаемся
-const userModel = require('./user');
-const categoryModel = require('./category');
+// models/user.js
 
-const gameSchema = new mongoose.Schema({
-  title: {
+const mongoose = require('mongoose');
+
+const userSchema = new mongoose.Schema({
+  username: {
     type: String,
     required: true,
   },
-  description: {
+  email: {
     type: String,
     required: true,
   },
-  developer: {
+  password: {
     type: String,
     required: true
   },
-  image: {
-    type: String,
-    required: true
-  },
-  link: {
-    type: String,
-    required: true
-  },
-  // Добавляем поле для списка пользователей
-  users: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: userModel,
-  }],
-  // Добавляем поле для списка категорий
-  categories: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: categoryModel,
-  }],
 });
 
-module.exports = mongoose.model('game', gameSchema);
+module.exports = mongoose.model('user', userSchema);
