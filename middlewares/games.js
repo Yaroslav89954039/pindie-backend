@@ -4,14 +4,20 @@
 const games = require("../models/game");
 
 const findAllGames = async (req, res, next) => {
-  console.log("GET /games");
+  // Поиск всех игр в проекте по заданной категории
+  if(req.query["categories.name"]) { 
+    req.gamesArray = await games.findGameByCategory(req.query["categories.name"]);
+    next();
+    return;
+  }
+  // Поиск всех игр в проекте
   req.gamesArray = await games
     .find({})
     .populate("categories")
     .populate({
-          path: "users",
-          select: "-password"
-        });
+      path: "users",
+      select: "-password" // Исключим данные о паролях пользователей
+    })
   next();
 };
 
@@ -67,6 +73,10 @@ const deleteGame = async (req, res, next) => {
 }; 
 
 const checkEmptyFields = async (req, res, next) => {
+  if(req.isVoteRequest) {
+    next();
+    return;
+  }
   if (
     !req.body.title ||
     !req.body.description ||
@@ -82,9 +92,14 @@ const checkEmptyFields = async (req, res, next) => {
     // Если всё в порядке, то передадим управление следующим миддлварам
     next();
   }
+
 };
 
 const checkIfCategoriesAvaliable = async (req, res, next) => {
+  if(req.isVoteRequest) {
+    next();
+    return;
+  }
   // Проверяем наличие жанра у игры
 if (!req.body.categories || req.body.categories.length === 0) {
   res.setHeader("Content-Type", "application/json");
@@ -124,6 +139,14 @@ const checkIsGameExists = async (req, res, next) => {
   }
 };
 
+const checkIsVoteRequest = async (req, res, next) => {
+  // Если в запросе присылают только поле users
+if (Object.keys(req.body).length === 1 && req.body.users) {
+  req.isVoteRequest = true;
+}
+next();
+};
+
 // Экспортируем функцию поиска всех игр
 module.exports = {findAllGames, createGame, findGameById, updateGame, deleteGame, checkEmptyFields, checkIfCategoriesAvaliable,
-checkIfUsersAreSafe, checkIsGameExists}
+checkIfUsersAreSafe, checkIsGameExists, checkIsVoteRequest}
