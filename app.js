@@ -17,6 +17,7 @@ const PORT = 3001;
 connectToDatabase();
 
 app.use(
+  cors,
   cookieParser(),
 bodyParser.json(),
 pagesRouter,
@@ -24,8 +25,7 @@ apiRouter,
 express.static(path.join(__dirname, "/public")),
 usersRouter, 
   gamesRouter, 
-  categoriesRouter,
-  cors
+  categoriesRouter
 );
 
 app.listen(PORT);
